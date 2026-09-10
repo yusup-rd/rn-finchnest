@@ -3,3 +3,418 @@
 @import "tailwindcss/utilities.css";
 
 @import "nativewind/theme";
+
+@theme {
+  --color-background: #0b1020;
+  --color-foreground: #f7f8fc;
+  --color-card: #151c32;
+  --color-muted: #202942;
+  --color-muted-foreground: rgba(203, 211, 232, 0.68);
+  --color-primary: #7c5cfc;
+  --color-accent: #2de2b2;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-success: #2de2b2;
+  --color-destructive: #ff5c7a;
+  --color-subscription: #ffb84d;
+
+  --spacing-0: 0px;
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-7: 28px;
+  --spacing-8: 32px;
+  --spacing-9: 36px;
+  --spacing-10: 40px;
+  --spacing-11: 44px;
+  --spacing-12: 48px;
+  --spacing-14: 56px;
+  --spacing-16: 64px;
+  --spacing-18: 72px;
+  --spacing-20: 80px;
+  --spacing-24: 96px;
+  --spacing-30: 120px;
+
+  --font-sans: sans-regular;
+  --font-sans-light: sans-light;
+  --font-sans-medium: sans-medium;
+  --font-sans-semibold: sans-semibold;
+  --font-sans-bold: sans-bold;
+  --font-sans-extrabold: sans-extrabold;
+}
+
+@layer components {
+  .tabs-icon {
+    @apply size-12 items-center justify-center;
+  }
+
+  .tabs-pill {
+    @apply size-12 items-center justify-center rounded-full bg-transparent;
+  }
+
+  .tabs-active {
+    @apply bg-accent;
+  }
+
+  .tabs-glyph {
+    @apply size-6;
+  }
+
+  .home-header {
+    @apply mb-2.5 flex-row items-center justify-between;
+  }
+
+  .home-user {
+    @apply flex-row items-center;
+  }
+
+  .home-avatar {
+    @apply size-16 rounded-full;
+  }
+
+  .home-user-name {
+    @apply font-sans-bold text-primary ml-4 text-2xl;
+  }
+
+  .home-add-icon {
+    @apply size-12;
+  }
+
+  .home-balance-card {
+    @apply bg-accent my-2.5 min-h-50 justify-between gap-5 rounded-tr-4xl rounded-bl-4xl p-6;
+  }
+
+  .home-balance-label {
+    @apply font-sans-semibold text-xl text-white/80;
+  }
+
+  .home-balance-row {
+    @apply flex-row items-center justify-between;
+  }
+
+  .home-balance-amount {
+    @apply font-sans-extrabold text-4xl text-white;
+  }
+
+  .home-balance-date {
+    @apply font-sans-medium text-xl text-white;
+  }
+
+  .list-head {
+    @apply my-5 flex-row items-center justify-between;
+  }
+
+  .list-title {
+    @apply font-sans-bold text-primary text-2xl;
+  }
+
+  .list-action {
+    @apply rounded-full border border-black/20 px-4 py-1;
+  }
+
+  .list-action-text {
+    @apply font-sans-semibold text-primary text-lg;
+  }
+
+  .upcoming-card {
+    @apply bg-background mr-4 w-44 rounded-2xl border border-black/10 p-4;
+  }
+
+  .upcoming-row {
+    @apply flex-row items-center gap-3;
+  }
+
+  .upcoming-icon {
+    @apply size-14;
+  }
+
+  .upcoming-price {
+    @apply font-sans-bold text-primary text-lg;
+  }
+
+  .upcoming-meta {
+    @apply font-sans-semibold text-muted-foreground text-sm;
+  }
+
+  .upcoming-name {
+    @apply font-sans-bold text-primary mt-2 text-lg;
+  }
+
+  .sub-card {
+    @apply border-border rounded-2xl border p-4;
+  }
+
+  .sub-card-expanded {
+    @apply bg-subscription;
+  }
+
+  .sub-head {
+    @apply flex-row items-center py-2;
+  }
+
+  .sub-main {
+    @apply min-w-0 flex-1 flex-row items-center gap-3;
+  }
+
+  .sub-icon {
+    @apply size-16 rounded-lg;
+  }
+
+  .sub-copy {
+    @apply min-w-0 flex-1;
+  }
+
+  .sub-title {
+    @apply font-sans-bold text-primary mb-1 text-lg;
+  }
+
+  .sub-meta {
+    @apply font-sans-semibold text-muted-foreground text-sm;
+  }
+
+  .sub-price-box {
+    @apply ml-3 shrink-0 items-end;
+  }
+
+  .sub-price {
+    @apply font-sans-bold text-primary mb-1 text-lg;
+  }
+
+  .sub-billing {
+    @apply font-sans-medium text-muted-foreground text-sm;
+  }
+
+  .sub-body {
+    @apply mt-6 gap-4;
+  }
+
+  .sub-details {
+    @apply gap-6;
+  }
+
+  .sub-row {
+    @apply flex-row items-center justify-between gap-3;
+  }
+
+  .sub-row-copy {
+    @apply min-w-0 flex-1 flex-row items-center gap-2;
+  }
+
+  .sub-label {
+    @apply font-sans-medium text-muted-foreground shrink-0 text-base;
+  }
+
+  .sub-value {
+    @apply font-sans-bold text-primary flex-1;
+  }
+
+  .sub-cancel {
+    @apply bg-primary mt-2 items-center rounded-full py-4;
+  }
+
+  .sub-cancel-disabled {
+    @apply bg-primary/35;
+  }
+
+  .sub-cancel-text {
+    @apply font-sans-bold text-background;
+  }
+
+  .home-empty-state {
+    @apply font-sans-medium py-4 text-sm text-black/60;
+  }
+
+  .auth-safe-area {
+    @apply bg-background flex-1;
+  }
+
+  .auth-screen {
+    @apply bg-background flex-1;
+  }
+
+  .auth-scroll {
+    @apply flex-1;
+  }
+
+  .auth-content {
+    @apply grow px-5 pt-8 pb-10;
+  }
+
+  .auth-brand-block {
+    @apply mt-2 items-center;
+  }
+
+  .auth-logo-wrap {
+    @apply mb-7 flex-row items-center gap-3;
+  }
+
+  .auth-logo-mark {
+    @apply bg-accent relative size-14 items-center justify-center rounded-2xl;
+  }
+
+  .auth-logo-mark-text {
+    @apply font-sans-extrabold text-background text-2xl;
+  }
+
+  .auth-wordmark {
+    @apply font-sans-extrabold text-primary text-3xl;
+  }
+
+  .auth-wordmark-sub {
+    @apply font-sans-semibold text-muted-foreground -mt-1 text-xs tracking-[1px] uppercase;
+  }
+
+  .auth-title {
+    @apply font-sans-bold text-primary text-3xl;
+  }
+
+  .auth-subtitle {
+    @apply font-sans-medium text-muted-foreground mt-2 max-w-[320px] text-center text-base;
+  }
+
+  .auth-card {
+    @apply border-border bg-card mt-8 rounded-3xl border p-5;
+  }
+
+  .auth-form {
+    @apply gap-4;
+  }
+
+  .auth-field {
+    @apply gap-2;
+  }
+
+  .auth-label {
+    @apply font-sans-semibold text-primary text-sm;
+  }
+
+  .auth-input {
+    @apply border-border bg-background font-sans-medium text-primary rounded-2xl border px-4 py-4 text-base;
+  }
+
+  .auth-input-error {
+    @apply border-destructive;
+  }
+
+  .auth-error {
+    @apply font-sans-medium text-destructive text-xs;
+  }
+
+  .auth-helper {
+    @apply font-sans-medium text-muted-foreground text-sm;
+  }
+
+  .auth-button {
+    @apply bg-accent mt-1 items-center rounded-2xl py-4;
+  }
+
+  .auth-button-disabled {
+    @apply bg-accent/45;
+  }
+
+  .auth-button-text {
+    @apply font-sans-bold text-primary text-base;
+  }
+
+  .auth-secondary-button {
+    @apply border-accent/30 bg-accent/10 items-center rounded-2xl border py-3;
+  }
+
+  .auth-secondary-button-text {
+    @apply font-sans-semibold text-accent text-sm;
+  }
+
+  .auth-divider-row {
+    @apply my-4 flex-row items-center gap-3;
+  }
+
+  .auth-divider-line {
+    @apply bg-border h-px flex-1;
+  }
+
+  .auth-divider-text {
+    @apply font-sans-semibold text-muted-foreground text-[11px] tracking-[1px] uppercase;
+  }
+
+  .auth-link-row {
+    @apply mt-5 flex-row items-center justify-center gap-1;
+  }
+
+  .auth-link-copy {
+    @apply font-sans-medium text-muted-foreground text-sm;
+  }
+
+  .auth-link {
+    @apply font-sans-bold text-accent text-sm;
+  }
+
+  .modal-overlay {
+    @apply flex-1 bg-black/50;
+  }
+
+  .modal-container {
+    @apply bg-background mt-auto max-h-[85%] rounded-t-3xl;
+  }
+
+  .modal-header {
+    @apply border-border flex-row items-center justify-between border-b px-5 py-4;
+  }
+
+  .modal-title {
+    @apply font-sans-bold text-primary text-xl;
+  }
+
+  .modal-close {
+    @apply bg-muted size-8 items-center justify-center rounded-full;
+  }
+
+  .modal-close-text {
+    @apply font-sans-bold text-primary text-lg;
+  }
+
+  .modal-body {
+    @apply gap-5 p-5;
+  }
+
+  .picker-row {
+    @apply flex-row gap-3;
+  }
+
+  .picker-option {
+    @apply border-border bg-background flex-1 items-center rounded-2xl border py-3;
+  }
+
+  .picker-option-active {
+    @apply border-accent bg-accent/10;
+  }
+
+  .picker-option-text {
+    @apply font-sans-semibold text-muted-foreground text-sm;
+  }
+
+  .picker-option-text-active {
+    @apply text-accent;
+  }
+
+  .category-scroll {
+    @apply flex-row flex-wrap gap-2;
+  }
+
+  .category-chip {
+    @apply border-border bg-background rounded-full border px-4 py-2;
+  }
+
+  .category-chip-active {
+    @apply border-accent bg-accent/10;
+  }
+
+  .category-chip-text {
+    @apply font-sans-semibold text-muted-foreground text-sm;
+  }
+
+  .category-chip-text-active {
+    @apply text-accent;
+  }
+}
