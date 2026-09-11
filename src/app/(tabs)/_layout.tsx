@@ -1,5 +1,5 @@
-import { tabs } from "@root/constants/data";
-import { colors, components } from "@root/constants/theme";
+import { tabs } from "@/constants/data";
+import { colors, components } from "@/constants/theme";
 import clsx from "clsx";
 import { Tabs } from "expo-router";
 import { Image, View } from "react-native";
