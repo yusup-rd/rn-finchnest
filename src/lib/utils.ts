@@ -14,14 +14,14 @@ export const formatCurrency = (value: number, currency = "USD"): string => {
 };
 
 export const formatSubscriptionDateTime = (value?: string): string => {
-  if (!value) return "Not provided";
+  if (!value) return "Not Provided";
   const parsedDate = dayjs(value);
   return parsedDate.isValid()
     ? parsedDate.format("MM/DD/YYYY")
-    : "Not provided";
+    : "Not Provided";
 };
 
 export const formatStatusLabel = (value?: string): string => {
-  if (!value) return "Unknown";
+  if (!value) return "Not Provided";
   return value.charAt(0).toUpperCase() + value.slice(1);
 };
