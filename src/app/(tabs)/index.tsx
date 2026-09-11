@@ -10,6 +10,7 @@ import {
 import { icons } from "@/constants/icons";
 import { avatar } from "@/constants/images";
 import { formatCurrency } from "@/lib/utils";
+import { useUser } from "@clerk/expo";
 import dayjs from "dayjs";
 import { styled } from "nativewind";
 import { useState } from "react";
@@ -19,9 +20,12 @@ import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
 const SafeAreaView = styled(RNSafeAreaView);
 
 export default function App() {
+  const { user } = useUser();
   const [expandedSubscriptionId, setExpandedSubscriptionId] = useState<
     string | null
   >(null);
+  const displayName = user?.firstName || user?.username || HOME_USER.name;
+  const photo = user?.imageUrl ? { uri: user.imageUrl } : avatar;
 
   const handleSubscriptionPress = (subscriptionId: string) => {
     setExpandedSubscriptionId((currentId) =>
@@ -37,11 +41,11 @@ export default function App() {
             <View className="home-header">
               <View className="home-user">
                 <Image
-                  source={avatar}
-                  resizeMode="contain"
+                  source={photo}
+                  resizeMode="cover"
                   className="home-avatar"
                 />
-                <Text className="home-user-name">{HOME_USER.name}</Text>
+                <Text className="home-user-name">{displayName}</Text>
               </View>
               <Image source={icons.add} className="home-add-icon" />
             </View>
