@@ -33,6 +33,7 @@ const AuthButton = ({
       hitSlop={8}
       pressRetentionOffset={12}
       accessibilityRole="button"
+      accessibilityLabel={title}
       accessibilityState={{ disabled: isDisabled, busy: loading }}
     >
       <Animated.View
