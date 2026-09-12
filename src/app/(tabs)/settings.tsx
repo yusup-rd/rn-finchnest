@@ -4,6 +4,8 @@ import { useClerk, useUser } from "@clerk/expo";
 import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
 import { styled } from "nativewind";
+
+import { posthog } from "@/lib/posthog";
 import { Image, Text, View } from "react-native";
 import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
 
@@ -20,6 +22,8 @@ const Settings = () => {
   const photo = user?.imageUrl ? { uri: user.imageUrl } : avatar;
 
   const handleSignOut = async () => {
+    posthog?.capture("sign_out_completed");
+    posthog?.reset();
     await signOut();
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     router.replace("/(auth)/sign-in");
