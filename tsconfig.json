@@ -4,8 +4,7 @@
     "strict": true,
     "paths": {
       "@/*": ["./src/*"],
-      "@/assets/*": ["./assets/*"],
-      "@root/*": ["./*"]
+      "@/assets/*": ["./assets/*"]
     }
   },
   "include": [
@@ -14,5 +13,6 @@
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
     "nativewind-env.d.ts"
-  ]
+  ],
+  "exclude": ["example", "node_modules"]
 }
