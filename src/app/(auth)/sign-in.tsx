@@ -4,11 +4,11 @@ import AuthField from "@/components/AuthField";
 import AuthScreen from "@/components/AuthScreen";
 import AuthVerification from "@/components/AuthVerification";
 import { isValidEmail, navigateAfterAuth } from "@/lib/auth";
-import { useAuth, useSignIn } from "@clerk/expo";
+import { useAuth, useSignIn, useSignUp } from "@clerk/expo";
 import * as Haptics from "expo-haptics";
 import { Link, useRouter } from "expo-router";
 import { useState } from "react";
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 
 type SignInStep = "credentials" | "trust" | "mfa";
 type MfaStrategy = "totp" | "email_code" | "phone_code" | "backup_code";
@@ -22,6 +22,7 @@ const mfaOptions: readonly { value: MfaStrategy; label: string }[] = [
 
 const SignIn = () => {
   const { signIn, errors, fetchStatus } = useSignIn();
+  const { signUp } = useSignUp();
   const { isSignedIn } = useAuth();
   const router = useRouter();
   const isFetching = fetchStatus === "fetching";
@@ -177,6 +178,11 @@ const SignIn = () => {
     }
 
     await continueAfterPassword();
+  };
+
+  const startSignUp = async () => {
+    await signUp.reset();
+    router.push("/(auth)/sign-up");
   };
 
   const handleVerify = async () => {
@@ -346,9 +352,9 @@ const SignIn = () => {
 
       <View className="auth-link-row">
         <Text className="auth-link-copy">New to FinchNest?</Text>
-        <Link href="/(auth)/sign-up">
+        <Pressable onPress={startSignUp} accessibilityRole="link">
           <Text className="auth-link">Create an account</Text>
-        </Link>
+        </Pressable>
       </View>
       <Text className="auth-trust">
         Your session stays on this device. We only use your email to protect

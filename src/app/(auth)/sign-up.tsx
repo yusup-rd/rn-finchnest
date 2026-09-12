@@ -3,11 +3,8 @@ import AuthButton from "@/components/AuthButton";
 import AuthField from "@/components/AuthField";
 import AuthScreen from "@/components/AuthScreen";
 import AuthVerification from "@/components/AuthVerification";
-import {
-  isValidEmail,
-  navigateAfterAuth
-} from "@/lib/auth";
-import { useAuth, useSignUp } from "@clerk/expo";
+import { isValidEmail, navigateAfterAuth } from "@/lib/auth";
+import { useAuth, useSignIn, useSignUp } from "@clerk/expo";
 import * as Haptics from "expo-haptics";
 import { Link, useRouter } from "expo-router";
 import { useMemo, useState } from "react";
@@ -15,6 +12,7 @@ import { Text, View } from "react-native";
 
 const SignUp = () => {
   const { signUp, errors, fetchStatus } = useSignUp();
+  const { signIn } = useSignIn();
   const { isSignedIn } = useAuth();
   const router = useRouter();
   const isFetching = fetchStatus === "fetching";
@@ -94,6 +92,14 @@ const SignUp = () => {
     }
 
     if (signUp.isTransferable) {
+      const { error: transferError } = await signIn.create({ transfer: true });
+      if (transferError) {
+        setLocalErrors({ email: transferError.message });
+        await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+        return;
+      }
+
+      router.replace("/(auth)/sign-in");
       return;
     }
 
