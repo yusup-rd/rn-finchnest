@@ -22,13 +22,14 @@ const RootNavigator = () => {
   const { isLoaded, isSignedIn } = useAuth();
   const segments = useSegments();
   const router = useRouter();
+  const inAuthGroup = segments[0] === "(auth)";
+  const routeMatchesAuthState =
+    segments.length > 0 && (isSignedIn ? !inAuthGroup : inAuthGroup);
 
   useEffect(() => {
     if (!isLoaded) {
       return;
     }
-
-    const inAuthGroup = segments[0] === "(auth)";
 
     if (!isSignedIn && !inAuthGroup) {
       router.replace("/(auth)/sign-in");
@@ -38,19 +39,28 @@ const RootNavigator = () => {
     if (isSignedIn && inAuthGroup) {
       router.replace("/(tabs)");
     }
-  }, [isLoaded, isSignedIn, router, segments]);
+  }, [inAuthGroup, isLoaded, isSignedIn, router]);
 
   useEffect(() => {
-    if (isLoaded) {
+    if (isLoaded && routeMatchesAuthState) {
       SplashScreen.hideAsync();
     }
-  }, [isLoaded]);
+  }, [isLoaded, routeMatchesAuthState]);
 
   if (!isLoaded) {
     return null;
   }
 
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return (
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Protected guard={isSignedIn === true}>
+        <Stack.Screen name="(tabs)" />
+      </Stack.Protected>
+      <Stack.Protected guard={isSignedIn !== true}>
+        <Stack.Screen name="(auth)" />
+      </Stack.Protected>
+    </Stack>
+  );
 };
 
 export default function RootLayout() {
