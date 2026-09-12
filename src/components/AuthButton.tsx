@@ -46,8 +46,8 @@ const AuthButton = ({
       >
         <View
           className={clsx(
-            variant === "primary" ? "auth-button" : "auth-secondary-button",
-            variant === "primary" && isDisabled && "auth-button-disabled",
+            variant === "primary" ? "button" : "secondary-button",
+            variant === "primary" && isDisabled && "button-disabled",
           )}
         >
           {loading ? (
@@ -57,9 +57,7 @@ const AuthButton = ({
           ) : (
             <Text
               className={
-                variant === "primary"
-                  ? "auth-button-text"
-                  : "auth-secondary-button-text"
+                variant === "primary" ? "button-text" : "secondary-button-text"
               }
             >
               {title}

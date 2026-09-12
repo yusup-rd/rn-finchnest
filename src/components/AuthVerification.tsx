@@ -41,7 +41,7 @@ const AuthVerification = ({
     <View className="auth-card">
       <View className="auth-form">
         <Text className="auth-title">{title}</Text>
-        <Text className="auth-helper">{subtitle}</Text>
+        <Text className="helper">{subtitle}</Text>
         {factorOptions && onFactorChange ? (
           <View className="auth-factor-list">
             {factorOptions.map((factor) => (

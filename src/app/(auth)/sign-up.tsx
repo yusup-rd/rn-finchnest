@@ -161,7 +161,7 @@ const SignUp = () => {
       {signUp.status === "complete" ? (
         <View className="auth-card">
           <View className="auth-form">
-            <Text className="auth-helper">
+            <Text className="helper">
               {finalizeError ||
                 "Your account is ready. Finish setting up your nest to continue."}
             </Text>
