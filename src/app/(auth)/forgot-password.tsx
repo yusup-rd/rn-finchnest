@@ -3,10 +3,7 @@ import AuthButton from "@/components/AuthButton";
 import AuthField from "@/components/AuthField";
 import AuthScreen from "@/components/AuthScreen";
 import AuthVerification from "@/components/AuthVerification";
-import {
-  isValidEmail,
-  navigateAfterAuth
-} from "@/lib/auth";
+import { isValidEmail, navigateAfterAuth } from "@/lib/auth";
 import { useSignIn } from "@clerk/expo";
 import * as Haptics from "expo-haptics";
 import { Link, useRouter } from "expo-router";
@@ -50,6 +47,7 @@ const ForgotPassword = () => {
 
     const { error: sendError } = await signIn.resetPasswordEmailCode.sendCode();
     if (sendError) {
+      setLocalErrors({ email: sendError.message });
       return;
     }
 
