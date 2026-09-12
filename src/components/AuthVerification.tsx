@@ -5,6 +5,7 @@ import { Pressable, Text, View } from "react-native";
 type AuthVerificationProps = {
   title: string;
   subtitle: string;
+  verificationMethod?: "numeric" | "backup";
   factorOptions?: readonly { value: string; label: string }[];
   selectedFactor?: string;
   onFactorChange?: (value: string) => void;
@@ -21,6 +22,7 @@ type AuthVerificationProps = {
 const AuthVerification = ({
   title,
   subtitle,
+  verificationMethod = "numeric",
   factorOptions,
   selectedFactor,
   onFactorChange,
@@ -33,6 +35,8 @@ const AuthVerification = ({
   loading = false,
   verifyLabel = "Verify",
 }: AuthVerificationProps) => {
+  const isBackupCode = verificationMethod === "backup";
+
   return (
     <View className="auth-card">
       <View className="auth-form">
@@ -55,10 +59,10 @@ const AuthVerification = ({
           label="Verification code"
           value={code}
           onChangeText={onCodeChange}
-          placeholder="123456"
-          keyboardType="number-pad"
-          inputMode="numeric"
-          maxLength={6}
+          placeholder={isBackupCode ? "Enter your backup code" : "123456"}
+          keyboardType={isBackupCode ? "default" : "number-pad"}
+          inputMode={isBackupCode ? "text" : "numeric"}
+          maxLength={isBackupCode ? undefined : 6}
           autoComplete="one-time-code"
           textContentType="oneTimeCode"
           error={error}
@@ -68,7 +72,7 @@ const AuthVerification = ({
           title={verifyLabel}
           onPress={onVerify}
           loading={loading}
-          disabled={code.trim().length < 6}
+          disabled={isBackupCode ? !code.trim() : code.trim().length < 6}
         />
         {onResend ? (
           <AuthButton

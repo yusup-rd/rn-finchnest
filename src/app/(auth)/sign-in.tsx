@@ -188,7 +188,11 @@ const SignIn = () => {
   const handleVerify = async () => {
     const trimmedCode = code.trim();
 
-    if (trimmedCode.length < 6) {
+    if (
+      mfaStrategy === "backup_code"
+        ? !trimmedCode
+        : !/^\d{6}$/.test(trimmedCode)
+    ) {
       return;
     }
 
@@ -334,7 +338,16 @@ const SignIn = () => {
             selectedFactor={mfaStrategy}
             onFactorChange={step === "mfa" ? handleFactorChange : undefined}
             code={code}
-            onCodeChange={setCode}
+            onCodeChange={(value) => {
+              setCode(
+                mfaStrategy === "backup_code"
+                  ? value
+                  : value.replace(/\D/g, "").slice(0, 6),
+              );
+            }}
+            verificationMethod={
+              mfaStrategy === "backup_code" ? "backup" : "numeric"
+            }
             onVerify={handleVerify}
             onResend={
               step === "trust" || mfaStrategy === "email_code"
