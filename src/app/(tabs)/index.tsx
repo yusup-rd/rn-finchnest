@@ -24,7 +24,8 @@ export default function App() {
   const [expandedSubscriptionId, setExpandedSubscriptionId] = useState<
     string | null
   >(null);
-  const displayName = user?.firstName || user?.username || HOME_USER.name;
+  const displayName =
+    user?.firstName || user?.fullName || user?.username || HOME_USER.name;
   const photo = user?.imageUrl ? { uri: user.imageUrl } : avatar;
 
   const handleSubscriptionPress = (subscriptionId: string) => {
