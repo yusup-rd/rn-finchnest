@@ -23,6 +23,8 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [code, setCode] = useState("");
+  const [finalizeError, setFinalizeError] = useState<string | null>(null);
+  const [isFinalizing, setIsFinalizing] = useState(false);
   const [localErrors, setLocalErrors] = useState<{
     firstName?: string;
     lastName?: string;
@@ -40,6 +42,9 @@ const SignUp = () => {
   );
 
   const completeSignUp = async () => {
+    setFinalizeError(null);
+    setIsFinalizing(true);
+
     const { error } = await signUp.finalize({
       navigate: ({ session }) => {
         navigateAfterAuth(session, () => router.replace("/(tabs)"));
@@ -47,10 +52,15 @@ const SignUp = () => {
     });
 
     if (error) {
+      setFinalizeError(
+        error.message || "We couldn't finish creating your account.",
+      );
+      setIsFinalizing(false);
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       return;
     }
 
+    setIsFinalizing(false);
     await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
   };
 
@@ -130,10 +140,11 @@ const SignUp = () => {
   const resetFlow = async () => {
     await signUp.reset();
     setCode("");
+    setFinalizeError(null);
     setLocalErrors({});
   };
 
-  if (isSignedIn || signUp.status === "complete") {
+  if (isSignedIn) {
     return null;
   }
 
@@ -145,7 +156,21 @@ const SignUp = () => {
         A few details now, then a clear view of every subscription you keep.
       </Text>
 
-      {isVerifying ? (
+      {signUp.status === "complete" ? (
+        <View className="auth-card">
+          <View className="auth-form">
+            <Text className="auth-helper">
+              {finalizeError ||
+                "Your account is ready. Finish setting up your nest to continue."}
+            </Text>
+            <AuthButton
+              title="Finish setting up"
+              onPress={completeSignUp}
+              loading={isFinalizing}
+            />
+          </View>
+        </View>
+      ) : isVerifying ? (
         <>
           <AuthVerification
             title="Check your inbox"
