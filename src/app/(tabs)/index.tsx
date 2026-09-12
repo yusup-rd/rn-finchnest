@@ -9,6 +9,7 @@ import {
 } from "@/constants/data";
 import { icons } from "@/constants/icons";
 import { avatar } from "@/constants/images";
+import { posthog } from "@/lib/posthog";
 import { formatCurrency } from "@/lib/utils";
 import { useUser } from "@clerk/expo";
 import dayjs from "dayjs";
@@ -29,9 +30,15 @@ export default function App() {
   const photo = user?.imageUrl ? { uri: user.imageUrl } : avatar;
 
   const handleSubscriptionPress = (subscriptionId: string) => {
-    setExpandedSubscriptionId((currentId) =>
-      currentId === subscriptionId ? null : subscriptionId,
-    );
+    const isExpanding = expandedSubscriptionId !== subscriptionId;
+
+    if (isExpanding) {
+      posthog?.capture("subscription_expanded", {
+        subscription_id: subscriptionId,
+      });
+    }
+
+    setExpandedSubscriptionId(isExpanding ? subscriptionId : null);
   };
 
   return (

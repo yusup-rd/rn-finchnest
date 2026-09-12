@@ -4,6 +4,7 @@ import AuthField from "@/components/AuthField";
 import AuthScreen from "@/components/AuthScreen";
 import AuthVerification from "@/components/AuthVerification";
 import { isValidEmail, navigateAfterAuth } from "@/lib/auth";
+import { posthog } from "@/lib/posthog";
 import { useAuth, useSignIn, useSignUp } from "@clerk/expo";
 import * as Haptics from "expo-haptics";
 import { Link, useRouter } from "expo-router";
@@ -61,6 +62,7 @@ const SignUp = () => {
     }
 
     setIsFinalizing(false);
+    posthog?.capture("sign_up_completed");
     await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
   };
 
