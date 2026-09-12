@@ -226,6 +226,18 @@
     @apply font-sans-medium py-4 text-sm text-black/60;
   }
 
+  .subscriptions-header {
+    @apply gap-4 pb-5;
+  }
+
+  .subscriptions-title {
+    @apply font-sans-bold text-primary text-3xl;
+  }
+
+  .subscriptions-search {
+    @apply border-border bg-card text-primary font-sans-medium rounded-2xl border px-4 py-3;
+  }
+
   .auth-safe-area {
     @apply bg-background flex-1;
   }
@@ -282,27 +294,27 @@
     @apply gap-4;
   }
 
-  .auth-field {
+  .field {
     @apply gap-2;
   }
 
-  .auth-label {
+  .label {
     @apply font-sans-semibold text-primary text-sm;
   }
 
-  .auth-input {
+  .input {
     @apply border-border bg-background text-primary font-sans-medium rounded-2xl border p-4;
   }
 
-  .auth-input-error {
+  .input-error {
     @apply border-destructive;
   }
 
-  .auth-error {
+  .error {
     @apply font-sans-medium text-destructive text-xs;
   }
 
-  .auth-helper {
+  .helper {
     @apply font-sans-medium text-muted-foreground text-sm;
   }
 
@@ -322,23 +334,23 @@
     @apply font-sans-semibold text-primary text-center text-sm;
   }
 
-  .auth-button {
+  .button {
     @apply bg-accent mt-1 items-center rounded-2xl py-4;
   }
 
-  .auth-button-disabled {
+  .button-disabled {
     @apply bg-accent/45;
   }
 
-  .auth-button-text {
+  .button-text {
     @apply font-sans-bold text-primary text-base;
   }
 
-  .auth-secondary-button {
+  .secondary-button {
     @apply border-accent/30 bg-accent/10 items-center rounded-2xl border py-3;
   }
 
-  .auth-secondary-button-text {
+  .secondary-button-text {
     @apply font-sans-semibold text-accent text-sm;
   }
 
@@ -432,10 +444,6 @@
 
   .modal-close {
     @apply bg-muted size-8 items-center justify-center rounded-full;
-  }
-
-  .modal-close-text {
-    @apply font-sans-bold text-primary text-lg;
   }
 
   .modal-body {

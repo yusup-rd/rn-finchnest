@@ -29,9 +29,9 @@ const AuthField = ({
   const isSecure = secureToggle ? hidden : secureTextEntry;
 
   return (
-    <View className="auth-field">
+    <View className="field">
       <View className="flex-row items-center justify-between">
-        <Text className="auth-label">{label}</Text>
+        <Text className="label">{label}</Text>
         {secureToggle ? (
           <Pressable
             onPress={() => setHidden((current) => !current)}
@@ -44,14 +44,14 @@ const AuthField = ({
       </View>
       <TextInput
         {...inputProps}
-        className={clsx("auth-input", error && "auth-input-error", className)}
+        className={clsx("input", error && "input-error", className)}
         placeholderTextColor={colors.mutedForeground}
         secureTextEntry={isSecure}
         autoCorrect={false}
         accessibilityLabel={inputProps.accessibilityLabel ?? label}
       />
-      {error ? <Text className="auth-error">{error}</Text> : null}
-      {!error && helper ? <Text className="auth-helper">{helper}</Text> : null}
+      {error ? <Text className="error">{error}</Text> : null}
+      {!error && helper ? <Text className="helper">{helper}</Text> : null}
     </View>
   );
 };
