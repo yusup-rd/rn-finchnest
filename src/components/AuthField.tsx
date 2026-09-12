@@ -48,6 +48,7 @@ const AuthField = ({
         placeholderTextColor={colors.mutedForeground}
         secureTextEntry={isSecure}
         autoCorrect={false}
+        accessibilityLabel={inputProps.accessibilityLabel ?? label}
       />
       {error ? <Text className="auth-error">{error}</Text> : null}
       {!error && helper ? <Text className="auth-helper">{helper}</Text> : null}
