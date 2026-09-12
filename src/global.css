@@ -303,7 +303,23 @@
   }
 
   .auth-helper {
-    @apply font-sans-medium text-muted-foreground text-center text-sm;
+    @apply font-sans-medium text-muted-foreground text-sm;
+  }
+
+  .auth-factor-list {
+    @apply gap-2;
+  }
+
+  .auth-factor-option {
+    @apply border-border bg-background rounded-2xl border px-4 py-3;
+  }
+
+  .auth-factor-option-selected {
+    @apply border-accent bg-accent/10;
+  }
+
+  .auth-factor-option-text {
+    @apply font-sans-semibold text-primary text-center text-sm;
   }
 
   .auth-button {

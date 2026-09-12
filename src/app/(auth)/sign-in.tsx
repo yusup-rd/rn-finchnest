@@ -3,10 +3,7 @@ import AuthButton from "@/components/AuthButton";
 import AuthField from "@/components/AuthField";
 import AuthScreen from "@/components/AuthScreen";
 import AuthVerification from "@/components/AuthVerification";
-import {
-  isValidEmail,
-  navigateAfterAuth
-} from "@/lib/auth";
+import { isValidEmail, navigateAfterAuth } from "@/lib/auth";
 import { useAuth, useSignIn } from "@clerk/expo";
 import * as Haptics from "expo-haptics";
 import { Link, useRouter } from "expo-router";
@@ -15,6 +12,13 @@ import { Text, View } from "react-native";
 
 type SignInStep = "credentials" | "trust" | "mfa";
 type MfaStrategy = "totp" | "email_code" | "phone_code" | "backup_code";
+
+const mfaOptions: readonly { value: MfaStrategy; label: string }[] = [
+  { value: "totp", label: "Authenticator app" },
+  { value: "email_code", label: "Email code" },
+  { value: "phone_code", label: "Text message" },
+  { value: "backup_code", label: "Backup code" },
+];
 
 const SignIn = () => {
   const { signIn, errors, fetchStatus } = useSignIn();
@@ -32,6 +36,29 @@ const SignIn = () => {
     password?: string;
   }>({});
 
+  const getSupportedMfaStrategies = () =>
+    Array.from(
+      new Set(
+        (signIn.supportedSecondFactors ?? []).flatMap((factor) =>
+          mfaOptions.some((option) => option.value === factor.strategy)
+            ? [factor.strategy as MfaStrategy]
+            : [],
+        ),
+      ),
+    );
+
+  const sendFactorCode = async (strategy: MfaStrategy) => {
+    if (strategy === "email_code") {
+      return (await signIn.mfa.sendEmailCode()).error;
+    }
+
+    if (strategy === "phone_code") {
+      return (await signIn.mfa.sendPhoneCode()).error;
+    }
+
+    return null;
+  };
+
   const completeSignIn = async () => {
     const { error } = await signIn.finalize({
       navigate: ({ session }) => {
@@ -48,51 +75,24 @@ const SignIn = () => {
   };
 
   const prepareSecondFactor = async () => {
-    const factors = signIn.supportedSecondFactors ?? [];
-    const totp = factors.find((factor) => factor.strategy === "totp");
-    const emailCode = factors.find(
-      (factor) => factor.strategy === "email_code",
-    );
-    const phoneCode = factors.find(
-      (factor) => factor.strategy === "phone_code",
-    );
-    const backupCode = factors.find(
-      (factor) => factor.strategy === "backup_code",
-    );
+    const strategies = getSupportedMfaStrategies();
+    const nextStrategy = strategies.includes(mfaStrategy)
+      ? mfaStrategy
+      : strategies[0];
 
-    if (totp) {
-      setMfaStrategy("totp");
-      setStep("mfa");
+    if (!nextStrategy) {
+      setLocalErrors({});
       return;
     }
 
-    if (emailCode) {
-      const { error } = await signIn.mfa.sendEmailCode();
-      if (error) {
-        return;
-      }
-      setMfaStrategy("email_code");
-      setStep("mfa");
+    const error = await sendFactorCode(nextStrategy);
+    if (error) {
       return;
     }
 
-    if (phoneCode) {
-      const { error } = await signIn.mfa.sendPhoneCode();
-      if (error) {
-        return;
-      }
-      setMfaStrategy("phone_code");
-      setStep("mfa");
-      return;
-    }
-
-    if (backupCode) {
-      setMfaStrategy("backup_code");
-      setStep("mfa");
-      return;
-    }
-
-    setLocalErrors({});
+    setMfaStrategy(nextStrategy);
+    setCode("");
+    setStep("mfa");
   };
 
   const continueAfterPassword = async () => {
@@ -102,20 +102,21 @@ const SignIn = () => {
     }
 
     if (signIn.status === "needs_client_trust") {
-      const emailCodeFactor = signIn.supportedSecondFactors.find(
-        (factor) => factor.strategy === "email_code",
+      const trustStrategy = getSupportedMfaStrategies().find(
+        (strategy) => strategy === "email_code" || strategy === "phone_code",
       );
 
-      if (!emailCodeFactor) {
+      if (!trustStrategy) {
         setLocalErrors({});
         return;
       }
 
-      const { error } = await signIn.mfa.sendEmailCode();
+      const error = await sendFactorCode(trustStrategy);
       if (error) {
         return;
       }
 
+      setMfaStrategy(trustStrategy);
       setCode("");
       setStep("trust");
       return;
@@ -133,6 +134,21 @@ const SignIn = () => {
     }
 
     setLocalErrors({});
+  };
+
+  const handleFactorChange = async (strategy: string) => {
+    if (!mfaOptions.some((option) => option.value === strategy)) {
+      return;
+    }
+
+    const nextStrategy = strategy as MfaStrategy;
+    setMfaStrategy(nextStrategy);
+    setCode("");
+
+    const error = await sendFactorCode(nextStrategy);
+    if (error) {
+      return;
+    }
   };
 
   const handleSubmit = async () => {
@@ -171,7 +187,7 @@ const SignIn = () => {
     }
 
     const verify =
-      step === "trust" || mfaStrategy === "email_code"
+      mfaStrategy === "email_code"
         ? () => signIn.mfa.verifyEmailCode({ code: trimmedCode })
         : mfaStrategy === "phone_code"
           ? () => signIn.mfa.verifyPhoneCode({ code: trimmedCode })
@@ -302,6 +318,15 @@ const SignIn = () => {
           <AuthVerification
             title={verificationCopy.title}
             subtitle={verificationCopy.subtitle}
+            factorOptions={
+              step === "mfa"
+                ? mfaOptions.filter((option) =>
+                    getSupportedMfaStrategies().includes(option.value),
+                  )
+                : undefined
+            }
+            selectedFactor={mfaStrategy}
+            onFactorChange={step === "mfa" ? handleFactorChange : undefined}
             code={code}
             onCodeChange={setCode}
             onVerify={handleVerify}

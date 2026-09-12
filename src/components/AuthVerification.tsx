@@ -5,6 +5,9 @@ import { Pressable, Text, View } from "react-native";
 type AuthVerificationProps = {
   title: string;
   subtitle: string;
+  factorOptions?: readonly { value: string; label: string }[];
+  selectedFactor?: string;
+  onFactorChange?: (value: string) => void;
   code: string;
   onCodeChange: (value: string) => void;
   onVerify: () => void;
@@ -18,6 +21,9 @@ type AuthVerificationProps = {
 const AuthVerification = ({
   title,
   subtitle,
+  factorOptions,
+  selectedFactor,
+  onFactorChange,
   code,
   onCodeChange,
   onVerify,
@@ -32,6 +38,19 @@ const AuthVerification = ({
       <View className="auth-form">
         <Text className="auth-title">{title}</Text>
         <Text className="auth-helper">{subtitle}</Text>
+        {factorOptions && onFactorChange ? (
+          <View className="auth-factor-list">
+            {factorOptions.map((factor) => (
+              <Pressable
+                key={factor.value}
+                onPress={() => onFactorChange(factor.value)}
+                className={`auth-factor-option ${selectedFactor === factor.value ? "auth-factor-option-selected" : ""}`}
+              >
+                <Text className="auth-factor-option-text">{factor.label}</Text>
+              </Pressable>
+            ))}
+          </View>
+        ) : null}
         <AuthField
           label="Verification code"
           value={code}
