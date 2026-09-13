@@ -105,7 +105,7 @@ const CreateSubscriptionModal = ({
       startDate: startDate.toISOString(),
       renewalDate: renewalDate.toISOString(),
       // TODO: FEATURE: Find a huge library of different icons and automatically assign them based on the subscription name
-      icon: icons.wallet,
+      icon: icons.dropbox,
       billing: frequency,
       color: categoryColors[category],
     });

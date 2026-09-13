@@ -4,12 +4,12 @@ declare global {
   interface AppTab {
     name: string;
     title: string;
-    icon: ImageSourcePropType;
+    icon: React.ComponentProps<typeof FontAwesome6>["name"];
   }
 
   interface TabIconProps {
     focused: boolean;
-    icon: ImageSourcePropType;
+    icon: React.ComponentProps<typeof FontAwesome6>["name"];
   }
 
   interface Subscription {
@@ -30,8 +30,8 @@ declare global {
   }
 
   interface SubscriptionCardProps extends Omit<Subscription, "id"> {
-    expanded?: boolean; // FIXME: Remove optionality once the component is fully implemented
-    onPress?: () => void; // FIXME: Remove optionality once the component is fully implemented
+    expanded: boolean;
+    onPress: () => void;
     onCancelPress?: () => void;
     isCancelling?: boolean;
   }

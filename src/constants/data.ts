@@ -15,12 +15,28 @@ const getNextRenewalDate = (date: string, billing: "Monthly" | "Yearly") => {
 const getDaysLeft = (date: string) =>
   Math.max(0, dayjs(date).startOf("day").diff(dayjs().startOf("day"), "day"));
 
-export const tabs: AppTab[] = [
-  { name: "index", title: "Home", icon: icons.home },
-  { name: "subscriptions", title: "Subscriptions", icon: icons.wallet },
-  { name: "insights", title: "Insights", icon: icons.activity },
-  { name: "settings", title: "Settings", icon: icons.setting },
-];
+export const tabs = [
+  {
+    name: "index",
+    title: "Home",
+    icon: "house",
+  },
+  {
+    name: "subscriptions",
+    title: "Subscriptions",
+    icon: "wallet",
+  },
+  {
+    name: "insights",
+    title: "Insights",
+    icon: "chart-line",
+  },
+  {
+    name: "settings",
+    title: "Settings",
+    icon: "gear",
+  },
+] as const;
 
 export const HOME_USER = {
   name: "Yusup Rejebov",
