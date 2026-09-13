@@ -7,11 +7,12 @@ import {
   HOME_USER,
   UPCOMING_SUBSCRIPTIONS,
 } from "@/constants/data";
-import { icons } from "@/constants/icons";
 import { avatar } from "@/constants/images";
+import { colors } from "@/constants/theme";
 import { posthog } from "@/lib/posthog";
 import { formatCurrency } from "@/lib/utils";
 import { useUser } from "@clerk/expo";
+import { FontAwesome6 as Fa } from "@expo/vector-icons";
 import dayjs from "dayjs";
 import { styled } from "nativewind";
 import { useState } from "react";
@@ -67,7 +68,7 @@ export default function App() {
                 accessibilityLabel="Add subscription"
                 hitSlop={8}
               >
-                <Image source={icons.add} className="home-add-icon" />
+                <Fa name="plus" size={32} color={colors.foreground} />
               </Pressable>
             </View>
 
