@@ -30,8 +30,8 @@ declare global {
   }
 
   interface SubscriptionCardProps extends Omit<Subscription, "id"> {
-    expanded?: boolean; // FIXME: Remove optionality once the component is fully implemented
-    onPress?: () => void; // FIXME: Remove optionality once the component is fully implemented
+    expanded: boolean;
+    onPress: () => void;
     onCancelPress?: () => void;
     isCancelling?: boolean;
   }
