@@ -4,12 +4,12 @@ declare global {
   interface AppTab {
     name: string;
     title: string;
-    icon: ImageSourcePropType;
+    icon: React.ComponentProps<typeof FontAwesome6>["name"];
   }
 
   interface TabIconProps {
     focused: boolean;
-    icon: ImageSourcePropType;
+    icon: React.ComponentProps<typeof FontAwesome6>["name"];
   }
 
   interface Subscription {
