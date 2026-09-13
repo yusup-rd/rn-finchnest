@@ -6,8 +6,8 @@ import {
   getSubscriptionsAddedInCurrentMonth,
 } from "@/lib/insights";
 import { posthog } from "@/lib/posthog";
-import { formatCurrency } from "@/lib/utils";
 import { useSubscriptionStore } from "@/lib/subscriptionStore";
+import { formatCurrency } from "@/lib/utils";
 import dayjs from "dayjs";
 import { styled } from "nativewind";
 import { useMemo, useState } from "react";
@@ -55,6 +55,7 @@ const Insights = () => {
         data={addedThisMonth}
         keyExtractor={(item) => item.id}
         extraData={expandedSubscriptionId}
+        showsVerticalScrollIndicator={false}
         ItemSeparatorComponent={() => <View className="h-4" />}
         contentContainerClassName="pb-20"
         renderItem={({ item }) => (

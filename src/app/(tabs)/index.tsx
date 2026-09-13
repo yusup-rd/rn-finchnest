@@ -117,6 +117,7 @@ export default function App() {
         keyExtractor={(item) => item.id}
         ItemSeparatorComponent={() => <View className="h-4" />}
         contentContainerClassName="pb-20"
+        showsVerticalScrollIndicator={false}
         ListEmptyComponent={
           <Text className="home-empty-state">No subscriptions yet.</Text>
         }

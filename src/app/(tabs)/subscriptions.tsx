@@ -57,6 +57,7 @@ const Subscriptions = () => {
         )}
         keyExtractor={(item) => item.id}
         extraData={expandedSubscriptionId}
+        showsVerticalScrollIndicator={false}
         ItemSeparatorComponent={() => <View className="h-4" />}
         contentContainerClassName="pb-20"
         keyboardDismissMode="on-drag"
