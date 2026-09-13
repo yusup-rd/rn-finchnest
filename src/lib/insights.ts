@@ -10,7 +10,11 @@ export type MonthlyExpensePoint = {
 };
 
 const getBillingInterval = (subscription: Subscription): "month" | "year" => {
-  const raw = (subscription.billing || subscription.frequency || "Monthly").toLowerCase();
+  const raw = (
+    subscription.billing ||
+    subscription.frequency ||
+    "Monthly"
+  ).toLowerCase();
   return raw.startsWith("year") ? "year" : "month";
 };
 
@@ -43,7 +47,10 @@ export const getChargeForMonth = (
   }
 
   if (getBillingInterval(subscription) === "year") {
-    if (start.month() !== monthStart.month() || monthStart.year() < start.year()) {
+    if (
+      start.month() !== monthStart.month() ||
+      monthStart.year() < start.year()
+    ) {
       return 0;
     }
 
@@ -55,11 +62,14 @@ export const getChargeForMonth = (
 
 export const getMonthlyExpenseSeries = (
   subscriptions: Subscription[],
+  now: Dayjs = dayjs(),
   monthCount = MONTHS_IN_CHART,
-  now = dayjs(),
 ): MonthlyExpensePoint[] =>
   Array.from({ length: monthCount }, (_, index) => {
-    const month = now.startOf("month").subtract(monthCount - 1 - index, "month");
+    const month = now
+      .startOf("month")
+      .subtract(monthCount - 1 - index, "month");
+
     const amount = subscriptions.reduce(
       (sum, subscription) => sum + getChargeForMonth(subscription, month, now),
       0,
@@ -75,7 +85,7 @@ export const getMonthlyExpenseSeries = (
 
 export const getCurrentMonthExpenses = (
   subscriptions: Subscription[],
-  now = dayjs(),
+  now: Dayjs = dayjs(),
 ): number =>
   subscriptions.reduce(
     (sum, subscription) => sum + getChargeForMonth(subscription, now, now),
@@ -84,7 +94,7 @@ export const getCurrentMonthExpenses = (
 
 export const getSubscriptionsAddedInCurrentMonth = (
   subscriptions: Subscription[],
-  now = dayjs(),
+  now: Dayjs = dayjs(),
 ): Subscription[] =>
   subscriptions
     .filter((subscription) => {
@@ -93,6 +103,7 @@ export const getSubscriptionsAddedInCurrentMonth = (
       }
 
       const start = dayjs(subscription.startDate);
+
       return start.isValid() && start.isSame(now, "month");
     })
     .sort(
